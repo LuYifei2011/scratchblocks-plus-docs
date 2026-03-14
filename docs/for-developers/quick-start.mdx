@@ -1,0 +1,143 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Quick Start Guide
+
+Get up and running with Scratchblocks-Plus in minutes with this quick start guide.
+
+## Installation
+
+Choose your installation method:
+
+<Tabs>
+  <TabItem value='npm' label='npm'>
+
+```bash
+npm install scratchblocks-plus
+```
+
+Then import it in your JavaScript file:
+
+```js
+import * as scratchblocks from 'scratchblocks-plus';
+```
+
+  </TabItem>
+  <TabItem value='html' label='HTML / CDN'>
+
+Add this script tag to your HTML file:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/scratchblocks-plus/build/scratchblocks.min.js"></script>
+```
+
+The library will be available as a global `scratchblocks` variable.
+
+  </TabItem>
+</Tabs>
+
+## Basic Usage
+
+### Rendering Block Code
+
+Write your Scratch block code inside a `<pre>` tag with the `blocks` class:
+
+```html
+<pre class="blocks">
+when flag clicked
+move (10) steps
+</pre>
+```
+
+After the page loads, call `scratchblocks.renderMatching()` to convert the code to visual blocks.
+Place this script at the end of your HTML file (just before the closing `</body>` tag):
+
+```js
+<script>
+scratchblocks.renderMatching('pre.blocks', {
+  style:     'scratch3',   // Block style: 'scratch2' or 'scratch3'
+  languages: ['en', 'de'], // Supported languages
+  scale: 1,                // Zoom level (default: 1)
+});
+</script>
+```
+
+### Configuration Options
+
+The `renderMatching()` function accepts:
+
+- **selector** (string): CSS selector targeting elements with block code (e.g., `pre.blocks`)
+- **style** (string, optional): Visual style of blocks
+  - `'scratch2'` – Classic Scratch 2.0 style
+  - `'scratch3'` – Modern Scratch 3.0 style (default)
+  - `'scratch3-high-contrast'` – High contrast variant for accessibility
+- **languages** (array, optional): Supported language codes (default: `['en']`)
+- **scale** (number, optional): Zoom level for rendered blocks (default: `1`)
+
+### Inline Blocks
+
+You can also render blocks inline within paragraphs:
+
+```html
+I'm rather fond of the <code class="b">stamp</code> block in Scratch.
+```
+
+Make a second call to `renderMatching()` with the `inline: true` option:
+
+```js
+<script>
+scratchblocks.renderMatching("pre.blocks", {
+  style: 'scratch3',
+  languages: ['en'],
+});
+
+scratchblocks.renderMatching("code.b", {
+  inline: true,
+  style: 'scratch3',
+  languages: ['en'],
+});
+</script>
+```
+
+Here we use `code.b` to target `<code>` elements with the `b` class.
+
+### Multi-Language Support
+
+To render blocks in languages other than English, you need to load language translations.
+
+#### Option 1: Use Translation Files
+
+Two translation file options are available:
+
+- **`translations.js`** – Limited set of languages (lighter weight)
+- **`translations-all.js`** – All languages supported by Scratch
+
+#### Option 2: Load Specific Languages
+
+To minimize bundle size, load only the languages you need:
+
+```js
+scratchblocks.loadLanguages({
+    de: require('scratchblocks-plus/locales/de.json'), // German
+    es: require('scratchblocks-plus/locales/es.json'), // Spanish
+})
+```
+
+Then specify the languages when rendering:
+
+```js
+scratchblocks.renderMatching('pre.blocks', {
+  style: 'scratch3',
+  languages: ['en', 'de', 'es'],
+});
+```
+
+## Next Steps
+
+- Explore [Examples](./examlples) for common use cases
+- See [React Integration](./react) for using blocks in React apps
+- Check [Server-Side Rendering](./ssr) for rendering on the backend

@@ -1,0 +1,111 @@
+---
+sidebar_position: 5
+---
+
+# Block Path
+
+The block path is a string that uniquely identifies a block within a script structure. It enables advanced features like block highlighting and programmatic block selection.
+
+## Understanding Block Paths
+
+Block paths follow a hierarchical numbering system:
+
+- **First number**: Script index (e.g., `1` is the first script)
+- **Second number**: Block position within the script (e.g., `2` is the second block)
+- **Nested numbers**: Additional levels for blocks inside other blocks
+
+### Example
+
+For the code below, the `move (10) steps` block has the path `1.2`:
+
+import ScratchBlocks from "scratchblocks-plus-react"
+
+```
+when flag clicked
+move (10) steps
+```
+
+Further nested blocks add more numbers, like `1.3.1.1` for the first block inside the first input of the third block of the first script.
+
+## Finding Block Paths
+
+Use the interactive [Block Path Tool](https://luyifei2011.github.io/scratchblocks-plus/examples/block-path-tool/) to quickly identify block paths – simply click any block to see its path.
+
+## Accessing Blocks by Path
+
+### Get Block Data
+
+Retrieve block information after parsing:
+
+```js
+const doc = scratchblocks.parse(`
+when flag clicked
+move (10) steps
+`);
+
+// Method 1: Direct call on doc object
+const blockDoc = doc.getBlockByPath("1.2");
+
+// Method 2: Using helper function
+const blockDoc = scratchblocks.getBlockByPath(doc, "1.2");
+
+console.log(blockDoc.text); // Block text content
+```
+
+### Get All Blocks
+
+Access the complete block map:
+
+```js
+const doc = scratchblocks.parse("...");
+
+for (const [path, blockDoc] of doc.blockMap) {
+  console.log(`Path: ${path}, Text: ${blockDoc.text}`);
+}
+```
+
+### Get Block DOM Element
+
+Access the rendered SVG element:
+
+```js
+const view = scratchblocks.newView(doc, { style: "scratch3" });
+const blockElement = view.getElementByPath("1.2");
+
+// Or use the helper function:
+const blockElement = scratchblocks.getElementByPath(view, "1.2");
+
+// All block elements have a data-block-path attribute
+const blockElement = document.querySelector('[data-block-path="1.2"]');
+```
+
+## Common Use Cases
+
+### Scroll to a Block
+
+Smooth scroll to a specific block:
+
+```js
+function scrollToBlock(view, blockPath) {
+  const blockElement = view.getElementByPath(blockPath);
+  if (blockElement) {
+    blockElement.scrollIntoView({ 
+      behavior: "smooth", 
+      block: "center" 
+    });
+  }
+}
+
+// Usage
+scrollToBlock(view, "1.2");
+```
+
+### Highlight a Block
+
+Draw attention to a specific block:
+
+```js
+view.highlightBlock("1.2", { blink: true });
+```
+
+For more details, see [Block Highlighting](./highlighting).

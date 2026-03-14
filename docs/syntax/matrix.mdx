@@ -1,0 +1,54 @@
+# Matrix Blocks
+
+Scratchblocks-Plus supports matrix input syntax for blocks that display LED matrices or pixel grids.
+
+## Syntax
+
+Matrix values use curly braces with comma-separated rows:
+
+```
+display ({01010,
+          01010,
+          00000,
+          10001,
+          01110} v)
+```
+
+## Example
+
+Here's a practical example of displaying a pattern on a 5x5 LED matrix:
+
+import ScratchBlocks from "scratchblocks-plus-react"
+
+```
+display ({01010,
+          01010,
+          00000,
+          10001,
+          01110} v)
+```
+
+<ScratchBlocks>
+{`
+display ({01010,
+          01010,
+          00000,
+          10001,
+          01110} v)
+`}
+</ScratchBlocks>
+
+In this example:
+- `0` represents an off/unlit LED
+- `1` represents an on/lit LED
+- Each row is separated by a comma
+- Whitespace is ignored for readability
+
+## Common Use Cases
+
+Matrix blocks are useful for:
+
+- Microcontroller tutorials (BBC micro:bit, Arduino with LED matrices)
+- Game development (displaying sprite patterns)
+- Pixel art demonstrations
+- Educational lessons about 2D arrays and grid-based graphics

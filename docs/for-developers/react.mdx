@@ -1,0 +1,121 @@
+---
+sidebar_position: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# React Integration
+
+Render Scratch blocks seamlessly within React applications using the `scratchblocks-plus-react` component.
+
+## Installation
+
+Install both the core library and React wrapper:
+
+<Tabs>
+  <TabItem value='npm' label='npm'>
+
+```bash
+npm install scratchblocks-plus scratchblocks-plus-react
+```
+
+  </TabItem>
+  <TabItem value='yarn' label='yarn'>
+
+```bash
+yarn add scratchblocks-plus scratchblocks-plus-react
+```
+
+  </TabItem>
+</Tabs>
+
+:::note
+You must have both `scratchblocks-plus-react` and `scratchblocks-plus` (along with `react`) installed.
+:::
+
+## Usage
+
+### Basic Example
+
+Render static block code:
+
+```jsx
+import ScratchBlocks from "scratchblocks-plus-react"
+
+function MyComponent() {
+  return (
+    <ScratchBlocks>
+      {`
+when green flag clicked
+forever
+  move (10) steps
+end
+      `}
+    </ScratchBlocks>
+  )
+}
+```
+
+### Dynamic Code (Editable)
+
+Allow users to edit block code in real-time:
+
+```jsx
+import { useState } from "react"
+import ScratchBlocks from "scratchblocks-plus-react"
+
+function MyComponent() {
+  const [code, setCode] = useState("when green flag clicked\nmove (10) steps")
+
+  return (
+    <div>
+      <textarea
+        value={code}
+        onChange={(event) => setCode(event.target.value)}
+        placeholder="Enter Scratchblocks code..."
+      />
+      <ScratchBlocks>{code}</ScratchBlocks>
+    </div>
+  )
+}
+```
+
+### Multi-Language Example
+
+Render blocks in multiple languages:
+
+```jsx
+import ScratchBlocks from "scratchblocks-plus-react"
+import scratchblocks from "scratchblocks-plus"
+import de from "scratchblocks-plus/locales/de.json" // German
+
+// Load language translations
+scratchblocks.loadLanguages({ de })
+
+function MyComponent() {
+  return (
+    <ScratchBlocks languages={["en", "de"]}>
+      {`
+Wenn die grüne Flagge angeklickt
+gehe (10) er Schritt
+      `}
+    </ScratchBlocks>
+  )
+}
+```
+
+## Available Props
+
+| Name       | Default      | Valid Values                                              | Description                                                          |
+| ---------- | ------------ | --------------------------------------------------------- | -------------------------------------------------------------------- |
+| blockStyle | `"scratch3"` | `"scratch2"`, `"scratch3"`, or `"scratch3-high-contrast"` | Changes the visual style of the rendered blocks.                     |
+| languages  | `["en"]`     | An array of language codes such as `["en", "de"]`         | Enables the use of non-english languages. Requires additional setup. |
+| inline     | `false`      | `true` or `false`                                         | Write scratchblocks-plus inline in text. This is not recommended.    |
+| scale      | `0.675`      | Any positive number                                       | Scales the rendered blocks.                                          |
+
+:::note
+
+The `scale` prop's default value is `0.675` when `blockStyle` is `scratch3` or `scratch3-high-contrast`, and `1` otherwise.
+
+:::
