@@ -1,8 +1,15 @@
 // Import the original mapper
 import MDXComponents from "@theme-original/MDXComponents";
-import ScratchBlocks from "scratchblocks-plus-react";
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
 export default {
   ...MDXComponents,
-  ScratchBlocks,
+  ScratchBlocks: (props) => (
+    <BrowserOnly>
+      {() => {
+        const ScratchBlocksComponent = require('scratchblocks-plus-react').default;
+        return <ScratchBlocksComponent {...props} />;
+      }}
+    </BrowserOnly>
+  ),
 };
